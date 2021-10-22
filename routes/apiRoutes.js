@@ -1,3 +1,4 @@
+// Required files + modules
 const router = require('express').Router();
 const { readFromFile, readAndAppend, deleteNote } = require('../helpers/fsUtils');
 const uuid = require('../helpers/uuid');
@@ -11,14 +12,14 @@ router.get('/notes', (req, res) => {
 // POST route for submitting a new note
 router.post('/notes', (req, res) => {
     const { title, text } = req.body;
-
+    // If title and text was entered...
     if (title && text) {
         const newNote = {
             title,
             text,
             id: uuid(),
         };
-
+        // Read JSON file and append new note
         readAndAppend(newNote, './db/db.json');
 
         const response = {
@@ -32,11 +33,12 @@ router.post('/notes', (req, res) => {
     }
 })
 
+// Bonus - DELETE request
 router.delete('/notes/:id', (req, res) => {
     console.log(req.params.id);
     deleteNote(req.params.id, './db/db.json');
     res.json('success');
 });
 
-
+// Export
 module.exports = router;
