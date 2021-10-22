@@ -1,13 +1,14 @@
-const path = require('path');
 const router = require('express').Router();
 const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
-const noteData = require('../db/db.json');
 
+
+// GET route for retrieving all the notes
 router.get('/notes', (req, res) => {
     console.info(`${req.method} request received for existing notes`);
-    readFromFile(noteData).then((data) => res.json(JSON.parse(data)));
+    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 })
 
+// POST route for submitting a new note
 router.post('/notes', (req, res) => {
     console.info(`${req.method} request received to submit new note`);
     const { title, text } = req.body;
@@ -18,7 +19,7 @@ router.post('/notes', (req, res) => {
             text,
         };
 
-        readAndAppend(newNote, '../');
+        readAndAppend(newNote, './db/db.json');
 
         const response = {
             status: 'success',

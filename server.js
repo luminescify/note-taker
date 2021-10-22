@@ -1,17 +1,27 @@
 const express = require('express');
-const htmlRoutes = require('./routes/htmlRoutes');
-const apiRoutes = require('./routes/apiRoutes');
-
-const app = express();
+const path = require('path');
+const api = require('./routes/apiRoutes');
 
 const PORT = process.env.PORT || 3001;
+const app = express();
 
+// Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api', api);
+
 app.use(express.static('public'));
 
-app.use('/api', apiRoutes);
-app.use('/', htmlRoutes);
+// GET route for homepage
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/index.html'));
+})
 
+// GET route for notes page
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, '/public/notes.html'));
+})
 
-app.listen(PORT, () => console.log(`listening on port ${PORT}`));
+app.listen(PORT, () => 
+    console.log(`listening on port ${PORT}`)
+);
