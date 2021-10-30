@@ -1,7 +1,7 @@
 # Note Taker
 
 ## Description
-An note-taking application that utilizes an Express.js back end to save and retrieve note data.
+A note-taking application that utilizes an Express.js back end to save and retrieve note data.
 
 ## Table of Contents
 
